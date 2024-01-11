@@ -23,7 +23,7 @@ const formSchema = z.object({
 
 type SignInForm = z.infer<typeof formSchema>
 
-export const SignIn = () => {
+export function SignIn() {
   const form = useForm<SignInForm>({
     resolver: zodResolver(formSchema),
   })

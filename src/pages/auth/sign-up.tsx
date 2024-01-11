@@ -45,7 +45,7 @@ const formSchema = z.object({
 
 type SignUpForm = z.infer<typeof formSchema>
 
-export const SignUp = () => {
+export function SignUp() {
   const form = useForm<SignUpForm>({
     resolver: zodResolver(formSchema),
   })
