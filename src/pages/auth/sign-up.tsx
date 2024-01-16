@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { registerRestaurant } from '@/api/register-restaurant'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -17,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input'
 
 const formSchema = z.object({
-  restauranteName: z
+  restaurantName: z
     .string({
       required_error: 'Digite um nome para o estabelecimento válido',
     })
@@ -52,19 +54,26 @@ export function SignUp() {
 
   const naginate = useNavigate()
 
-  async function onSubmit(data: SignUpForm) {
-    console.log(data)
+  const { mutateAsync: registerRestaurantFn } = useMutation({
+    mutationFn: registerRestaurant,
+  })
 
+  async function onSubmit(data: SignUpForm) {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await registerRestaurantFn({
+        restaurantName: data.restaurantName,
+        managerName: data.managerName,
+        phone: data.phone,
+        email: data.email,
+      })
       toast.success('Restaurante cadastrado com sucesso', {
         action: {
           label: 'Login',
-          onClick: () => naginate('/sign-in'),
+          onClick: () => naginate(`/sign-in?email=${data.email}`),
         },
       })
     } catch (error) {
-      toast.success('Error ao cadastrar restaurante.')
+      toast.error('Error ao cadastrar restaurante.')
     }
   }
 
@@ -91,7 +100,7 @@ export function SignUp() {
               <div className="space-y-2">
                 <FormField
                   control={form.control}
-                  name="restauranteName"
+                  name="restaurantName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nome do estabelecimento</FormLabel>

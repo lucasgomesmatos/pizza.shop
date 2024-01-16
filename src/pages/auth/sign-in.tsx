@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { signIn } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -24,20 +26,31 @@ const formSchema = z.object({
 type SignInForm = z.infer<typeof formSchema>
 
 export function SignIn() {
+  const [searchParams] = useSearchParams()
+
   const form = useForm<SignInForm>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: searchParams.get('email') || '',
+    },
+  })
+
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
   })
 
   async function onSubmit(data: SignInForm) {
-    console.log(data)
-
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    toast.success('Enviamos um link de autenticação para seu e-mail.', {
-      action: {
-        label: 'Reenviar',
-        onClick: () => onSubmit(data),
-      },
-    })
+    try {
+      await authenticate(data)
+      toast.success('Enviamos um link de autenticação para seu e-mail.', {
+        action: {
+          label: 'Reenviar',
+          onClick: () => onSubmit(data),
+        },
+      })
+    } catch (error) {
+      toast.error('Credencias inválidas. Tente novamente.')
+    }
   }
 
   const { isSubmitting } = form.formState
