@@ -24,11 +24,11 @@ npm install
 
 Run the project
 
-1. Create a file with the extension `.env.local` or simply copy and paste from the `.env.local.example` file.
+- Create a file with the extension `.env.local` or simply copy and paste from the `.env.local.example` file.
 
-2. Download and run the back-end available at this link: [BackEnd](https://github.com/rocketseat-education/pizzashop-api), add the BackEnd URL in the file `.env.local`.
+- Download and run the back-end available at this link: [BackEnd](https://github.com/rocketseat-education/pizzashop-api), add the BackEnd URL in the file `.env.local`.
 
-3. Fill in the BackEnd URL.
+- Fill in the BackEnd URL.
 
 ```bash
 VITE_API_URL= URL BACKEND
@@ -43,3 +43,17 @@ To run the project locally, simply run the command below:
 ```bash
 npm run dev
 ```
+
+## Features
+
+- it should be able to register a new restaurant
+- it should be able to sign in as a restaurant manager
+- it should be able to register as a new customer
+- it should be able to crete an order to the restaurant
+- it should be able to manage the restaurant menu
+- it should be able to manage the restaurant evaluations
+- it should be able to leave an evaluation
+- it should be able to manage the restaurant orders
+- it should be able to update the restaurant public profile
+- it should be able to open/close the restaurant
+- it should be able to list metrics from the restaurant
