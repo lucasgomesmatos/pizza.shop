@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 
-type OrderStatus =
+export type OrderStatus =
   | 'pending'
   | 'canceled'
   | 'processing'
@@ -14,7 +14,7 @@ type OrderStatusProps = {
 const orderStatusMap: Record<OrderStatus, string> = {
   pending: 'Pendente',
   canceled: 'Cancelado',
-  processing: 'Processando',
+  processing: 'Em Preparo',
   delivering: 'Em entrega',
   delivered: 'Entregue',
 }
