@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { Utensils } from 'lucide-react'
 
-import { getDayOrdersAmount } from '@/api/get-day-orders-amount'
+import { getMountOrdersAmount } from '@/api/get-month-orders-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const DayOrdersAmountCard = () => {
-  const { data: dayOrdersAmount } = useQuery({
-    queryKey: ['metrics', 'day-orders-amount'],
-    queryFn: getDayOrdersAmount,
+export const MonthOrdersAmountCard = () => {
+  const { data: mountOrdersAmount } = useQuery({
+    queryKey: ['metrics', 'mount-orders-amount'],
+    queryFn: getMountOrdersAmount,
   })
 
   return (
@@ -16,30 +16,36 @@ export const DayOrdersAmountCard = () => {
         title="Receitas total (mes)"
         className="flex flex-row items-center justify-between space-y-0 pb-2"
       >
-        <CardTitle className="text-base font-semibold">Pedidos (dia)</CardTitle>
+        <CardTitle className="text-base font-semibold">Pedidos (mês)</CardTitle>
         <Utensils className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
-        {dayOrdersAmount && (
+        {mountOrdersAmount && (
           <>
             <span className="text-2xl font-bold tracking-tight">
-              {dayOrdersAmount.amount.toLocaleString('pt-BR')}
+              {mountOrdersAmount.amount.toLocaleString('pt-BR')}
             </span>
             <p className="text-xs text-muted-foreground">
-              {dayOrdersAmount.diffFromYesterday >= 0 ? (
+              {mountOrdersAmount.diffFromLastMonth >= 0 ? (
                 <>
                   <span className="text-emerald-500 dark:text-emerald-400">
-                    +{dayOrdersAmount.diffFromYesterday.toLocaleString('pt-BR')}
+                    +
+                    {mountOrdersAmount.diffFromLastMonth.toLocaleString(
+                      'pt-BR',
+                    )}
                     %
                   </span>{' '}
-                  em relação a ontem
+                  em relação ao mês anterior
                 </>
               ) : (
                 <>
                   <span className="text-rose-500 dark:text-rose-400">
-                    {dayOrdersAmount.diffFromYesterday.toLocaleString('pt-BR')}%
+                    {mountOrdersAmount.diffFromLastMonth.toLocaleString(
+                      'pt-BR',
+                    )}
+                    %
                   </span>{' '}
-                  em relação a ontem
+                  em relação ao mês anterior
                 </>
               )}
             </p>
