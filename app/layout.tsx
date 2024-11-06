@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import { Toaster } from 'sonner'
 
+import { ThemeProvider } from '@/components/theme-provider'
 import { cn } from '@/lib/utils'
 
 const fontSans = FontSans({
@@ -24,14 +25,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
           fontSans.variable,
         )}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         <Toaster richColors />
       </body>
     </html>

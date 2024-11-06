@@ -2,7 +2,7 @@
 
 import { RotateCcw, ShieldX } from 'lucide-react'
 import { Metadata } from 'next'
-import { Space_Grotesk as FontSans } from 'next/font/google'
+import { Inter as FontSans } from 'next/font/google'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -16,8 +16,8 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Hackathon Brasil',
-    default: 'Hackathon Brasil',
+    template: '%s | Pizza Shop',
+    default: 'Pizza Shop',
   },
 }
 
