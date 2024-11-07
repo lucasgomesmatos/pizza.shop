@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react'
+import { ArrowRight, Search, X } from 'lucide-react'
 import { Metadata } from 'next'
 
 import { Button } from '@/components/ui/button'
@@ -32,43 +32,55 @@ export default function Orders() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead></TableHead>
-                <TableHead>Identificador</TableHead>
-                <TableHead>Realizado há</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className="w-[64]"></TableHead>
+                <TableHead className="w-[140]">Identificador</TableHead>
+                <TableHead className="w-[180]">Realizado há</TableHead>
+                <TableHead className="w-[140]">Status</TableHead>
                 <TableHead>Cliente</TableHead>
-                <TableHead>Total do pedido</TableHead>
-                <TableHead></TableHead>
-                <TableHead></TableHead>
+                <TableHead className="w-[140]">Total do pedido</TableHead>
+                <TableHead className="w-[164]"></TableHead>
+                <TableHead className="w-[132]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>
-                  <Button variant="outline" size="sm">
-                    <Search className="size-3" />
-                    <span className="sr-only">Detalhes do pedido</span>
-                  </Button>
-                </TableCell>
-                <TableCell className="font-mono text-sm font-medium">
-                  asdasdasdas48d7as8das
-                </TableCell>
-                <TableCell className="text-muted-foreground">
-                  há 15 minutos
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-slate-400" />
-                    <span className="font-medium text-muted-foreground">
-                      Pendente
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="font-medium">Lucas Gomes</TableCell>
-                <TableCell>123456</TableCell>
-                <TableCell>123456</TableCell>
-                <TableCell>123456</TableCell>
-              </TableRow>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Button variant="outline" size="sm">
+                      <Search className="size-3" />
+                      <span className="sr-only">Detalhes do pedido</span>
+                    </Button>
+                  </TableCell>
+                  <TableCell className="font-mono text-sm font-medium">
+                    asdasdasdas48d7as8das
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    há 15 minutos
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-slate-400" />
+                      <span className="font-medium text-muted-foreground">
+                        Pendente
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-medium">Lucas Gomes</TableCell>
+                  <TableCell className="font-medium">R$ 149,90</TableCell>
+                  <TableCell>
+                    <Button variant="outline" size="sm">
+                      <ArrowRight className="size-3" />
+                      Aprovar
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button variant="ghost" size="sm">
+                      <X className="size-3" />
+                      Cancelar
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>
