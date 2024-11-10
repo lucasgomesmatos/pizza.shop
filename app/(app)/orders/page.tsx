@@ -7,9 +7,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { OrderPagination } from '../components/order-pagination'
-import { OrderTableFilters } from '../components/order-table-filters'
-import { OrderTableRow } from '../components/order-table-row'
+import { OrderPagination } from '../components/orders/order-pagination'
+import { OrderTableFilters } from '../components/orders/order-table-filters'
+import { OrderTableRow } from '../components/orders/order-table-row'
 
 // export const metadata: Metadata = {
 //   title: 'Pedidos',
