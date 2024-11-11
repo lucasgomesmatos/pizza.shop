@@ -4,6 +4,7 @@ import { DayOrdersAmountCard } from '../components/dashboard/day-orders-amount-c
 import { MonthCanceledOrdersAmountCard } from '../components/dashboard/month-canceled-orders-amount-card'
 import { MonthOrdersAmountCard } from '../components/dashboard/month-orders-amount-card'
 import { MonthRevenueCard } from '../components/dashboard/month-revenue-card'
+import { RevenueChart } from '../components/dashboard/revenue-chart'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -19,6 +20,10 @@ export default function Dashboard() {
         <MonthOrdersAmountCard />
         <DayOrdersAmountCard />
         <MonthCanceledOrdersAmountCard />
+      </div>
+
+      <div className="grid grid-cols-9 gap-4">
+        <RevenueChart />
       </div>
     </div>
   )
