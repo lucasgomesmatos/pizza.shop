@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import { Toaster } from 'sonner'
 
+import { ReactQueryProvider } from '@/components/provider/react-query-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { cn } from '@/lib/utils'
 
@@ -32,14 +33,16 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </ReactQueryProvider>
         <Toaster richColors />
       </body>
     </html>
