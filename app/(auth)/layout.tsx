@@ -12,7 +12,7 @@ export default function AuthLayout({
           <Pizza className="size-5" />
           <span className="font-semibold">pizza.shop</span>
         </div>
-        <footer className="text-sm">
+        <footer className="text-sm md:text-base">
           Painel do parceiro &copy; pizza.shop - {new Date().getFullYear()}
         </footer>
       </section>
