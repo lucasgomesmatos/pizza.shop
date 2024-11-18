@@ -1,10 +1,12 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { signInWithEmailAction } from '@/actions/sign-in-with-email.action'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -27,9 +29,10 @@ const formSchema = z.object({
     }),
 })
 
-type FormSignInValues = z.infer<typeof formSchema>
+export type FormSignInValues = z.infer<typeof formSchema>
 
 export const FormSignIn = () => {
+  const [isPending, startTransition] = useTransition()
   const form = useForm<FormSignInValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,14 +47,22 @@ export const FormSignIn = () => {
   async function onSubmit(values: FormSignInValues) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    console.log(values)
-
-    toast.success('Enviamos um link de autenticação para seu e-mail', {
-      action: {
-        label: 'Reenviar',
-        onClick: () => onSubmit(values),
-      },
-    })
+    startTransition(() =>
+      signInWithEmailAction(values).then((data) => {
+        if (data?.success) {
+          toast.success('Enviamos um link de autenticação para seu e-mail', {
+            action: {
+              label: 'Reenviar',
+              onClick: () => onSubmit(values),
+            },
+          })
+        } else if (data?.error) {
+          toast.error(data.error)
+        } else {
+          toast.error('Não foi possível autenticar o usuário')
+        }
+      }),
+    )
   }
 
   return (
@@ -71,7 +82,11 @@ export const FormSignIn = () => {
             </FormItem>
           )}
         />
-        <Button disabled={isSubmitting} className="w-full" type="submit">
+        <Button
+          disabled={isPending || isSubmitting}
+          className="w-full"
+          type="submit"
+        >
           Acessar painel
         </Button>
       </form>
