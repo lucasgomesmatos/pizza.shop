@@ -27,7 +27,6 @@ export async function signInWithEmailAction(values: FormSignInValues) {
         error: 'Usuário não autorizado',
       }
     }
-
     return {
       success: false,
       error: 'Não foi possível autenticar o usuário',
@@ -36,5 +35,6 @@ export async function signInWithEmailAction(values: FormSignInValues) {
 
   return {
     success: true,
+    error: null,
   }
 }
