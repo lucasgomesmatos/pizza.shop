@@ -3,10 +3,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { signUpAction } from '@/actions/sign-up.action'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -50,9 +52,10 @@ const formSchema = z.object({
     }),
 })
 
-type FormSignUpValues = z.infer<typeof formSchema>
+export type FormSignUpValues = z.infer<typeof formSchema>
 
 export const FormSignUp = () => {
+  const [isPending, startTransition] = useTransition()
   const { push } = useRouter()
 
   const form = useForm<FormSignUpValues>({
@@ -70,16 +73,22 @@ export const FormSignUp = () => {
   } = form
 
   async function onSubmit(values: FormSignUpValues) {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    console.log(values)
-
-    toast.success('Restaurante cadastrado com sucesso', {
-      action: {
-        label: 'Login',
-        onClick: () => push('/sign-in'),
-      },
-    })
+    startTransition(() =>
+      signUpAction(values).then((data) => {
+        if (data?.success) {
+          toast.success('Restaurante cadastrado com sucesso!', {
+            action: {
+              label: 'Login',
+              onClick: () => push(`/sign-in?email=${values.email}`),
+            },
+          })
+        } else if (data?.error) {
+          toast.error(data.error)
+        } else {
+          toast.error('Não foi possível autenticar o usuário')
+        }
+      }),
+    )
   }
 
   return (
@@ -146,7 +155,11 @@ export const FormSignUp = () => {
             </FormItem>
           )}
         />
-        <Button disabled={isSubmitting} className="w-full" type="submit">
+        <Button
+          disabled={isSubmitting || isPending}
+          className="w-full"
+          type="submit"
+        >
           Finalizar cadastro
         </Button>
 

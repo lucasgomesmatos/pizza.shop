@@ -45,8 +45,6 @@ export const FormSignIn = () => {
   } = form
 
   async function onSubmit(values: FormSignInValues) {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
     startTransition(() =>
       signInWithEmailAction(values).then((data) => {
         if (data?.success) {

@@ -1,35 +1,24 @@
 'use server'
 
 import { HTTPError } from 'ky'
-import { cookies } from 'next/headers'
 
-import { FormSignInValues } from '@/app/(auth)/components/form-sign-in'
-import { signInWithEmail } from '@/http/sign-in-with-email'
+import { FormSignUpValues } from '@/app/(auth)/components/form-sign-up'
+import { SignUp } from '@/http/sign-up'
 
-export async function signInWithEmailAction(values: FormSignInValues) {
+export async function signUpAction(values: FormSignUpValues) {
   try {
-    const { token } = await signInWithEmail(values)
-
-    const cookieAuth = await cookies()
-
-    cookieAuth.set('token', token, {
-      maxAge: 60 * 60 * 24 * 7,
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-    })
+    await SignUp(values)
   } catch (error) {
     console.error(error)
     if (error instanceof HTTPError && error.response.status === 401) {
       return {
         success: false,
-        error: 'Usuário não autorizado',
+        error: 'Erro ao cadastrar o restaurante',
       }
     }
     return {
       success: false,
-      error: 'Não foi possível autenticar o usuário',
+      error: 'Não foi possível cadastrar o restaurante',
     }
   }
 
