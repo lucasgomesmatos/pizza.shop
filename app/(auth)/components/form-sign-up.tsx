@@ -82,6 +82,7 @@ export const FormSignUp = () => {
               onClick: () => push(`/sign-in?email=${values.email}`),
             },
           })
+          form.reset()
         } else if (data?.error) {
           toast.error(data.error)
         } else {

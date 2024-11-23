@@ -1,5 +1,7 @@
 import { Building, ChevronDown, LogOut } from 'lucide-react'
 
+import { getProfile } from '@/http/get-profile'
+
 import { Button } from './ui/button'
 import {
   DropdownMenu,
@@ -10,7 +12,9 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 
-export const AccountMenu = () => {
+export async function AccountMenu() {
+  await getProfile()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -18,7 +22,7 @@ export const AccountMenu = () => {
           variant="outline"
           className="flex select-none items-center gap-2"
         >
-          Pizza Shop
+          {'oi'}
           <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>

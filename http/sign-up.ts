@@ -7,7 +7,7 @@ interface SignUpRequest {
   phone: string
 }
 
-export async function SignUp({
+export async function signUp({
   email,
   managerName,
   phone,

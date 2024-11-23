@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'next/navigation'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -32,11 +33,15 @@ const formSchema = z.object({
 export type FormSignInValues = z.infer<typeof formSchema>
 
 export const FormSignIn = () => {
+  const searchParams = useSearchParams()
+
+  const paramEmail = searchParams.get('email')
+
   const [isPending, startTransition] = useTransition()
   const form = useForm<FormSignInValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
+      email: paramEmail || '',
     },
   })
 

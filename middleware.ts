@@ -11,6 +11,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  if (authenticated && publicRoutes.includes(request.nextUrl.pathname)) {
+    const url = new URL('/dashboard', request.url)
+    return NextResponse.redirect(url)
+  }
+
+  if (authenticated && request.nextUrl.pathname === '/') {
+    const url = new URL('/dashboard', request.url)
+    return NextResponse.redirect(url)
+  }
+
   return NextResponse.next()
 }
 export const config = {

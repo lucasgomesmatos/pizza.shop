@@ -1,3 +1,5 @@
+'use client'
+
 import { Home, Pizza, UtensilsCrossed } from 'lucide-react'
 
 import { AccountMenu } from './account-menu'
