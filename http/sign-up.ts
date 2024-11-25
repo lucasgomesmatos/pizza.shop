@@ -13,9 +13,7 @@ export async function signUp({
   phone,
   restaurantName,
 }: SignUpRequest) {
-  await api
-    .post('restaurants', {
-      json: { email, managerName, phone, restaurantName },
-    })
-    .json()
+  await api.post('restaurants', {
+    json: { email, managerName, phone, restaurantName },
+  })
 }

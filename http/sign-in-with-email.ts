@@ -9,7 +9,9 @@ interface SignInWithEmailResponse {
 
 export async function signInWithEmail({ email }: SignInWithEmailRequest) {
   const response = await api
-    .post('authenticate', { json: { email } })
+    .post<SignInWithEmailResponse>('authenticate', {
+      json: { email },
+    })
     .json<SignInWithEmailResponse>()
 
   return response

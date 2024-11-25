@@ -1,5 +1,6 @@
 import { Building, ChevronDown, LogOut } from 'lucide-react'
 
+import { getManagedRestaurant } from '@/http/get-manager-restaurant'
 import { getProfile } from '@/http/get-profile'
 
 import { Button } from './ui/button'
@@ -13,7 +14,11 @@ import {
 } from './ui/dropdown-menu'
 
 export async function AccountMenu() {
-  await getProfile()
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
+  const user = await getProfile()
+
+  const managedRestaurant = await getManagedRestaurant()
 
   return (
     <DropdownMenu>
@@ -22,16 +27,15 @@ export async function AccountMenu() {
           variant="outline"
           className="flex select-none items-center gap-2"
         >
-          {'oi'}
+          {managedRestaurant.name}
           <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="flex flex-col">
-          <span>Lucas Gomes Matos</span>
+          <span>{user.name}</span>
           <span className="text-sm font-normal text-muted-foreground">
-            {' '}
-            lucas@gmail.com
+            {user.email}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
