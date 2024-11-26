@@ -1,4 +1,5 @@
 import { Home, Pizza, UtensilsCrossed } from 'lucide-react'
+import { Suspense } from 'react'
 
 import { AccountMenu } from './account-menu'
 import { ModeToggle } from './mode-toggle'
@@ -25,7 +26,9 @@ export const Header = () => {
 
         <div className="ml-auto flex items-center gap-2">
           <ModeToggle />
-          <AccountMenu />
+          <Suspense>
+            <AccountMenu />
+          </Suspense>
         </div>
       </div>
     </div>
