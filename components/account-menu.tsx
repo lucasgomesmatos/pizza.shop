@@ -14,7 +14,7 @@ import {
 } from './ui/dropdown-menu'
 
 export async function AccountMenu() {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 5000))
 
   const user = await getProfile()
 

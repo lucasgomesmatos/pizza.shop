@@ -5,6 +5,7 @@ import { AccountMenu } from './account-menu'
 import { ModeToggle } from './mode-toggle'
 import { NavLink } from './nav-link'
 import { Separator } from './ui/separator'
+import { Skeleton } from './ui/skeleton'
 
 export const Header = () => {
   return (
@@ -26,7 +27,7 @@ export const Header = () => {
 
         <div className="ml-auto flex items-center gap-2">
           <ModeToggle />
-          <Suspense>
+          <Suspense fallback={<Skeleton className="h-8 w-52" />}>
             <AccountMenu />
           </Suspense>
         </div>
