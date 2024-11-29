@@ -4,7 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
+
+import { updateProfileAction } from '@/actions/update-profile.action'
 
 import { Button } from './ui/button'
 import {
@@ -37,7 +40,7 @@ const storeProfileSchema = z.object({
   }),
 })
 
-type StoreProfileSchema = z.infer<typeof storeProfileSchema>
+export type StoreProfileSchema = z.infer<typeof storeProfileSchema>
 
 interface StoreProfileDialogProps {
   name: string
@@ -60,19 +63,13 @@ export const StoreProfileDialog = ({
   })
 
   async function onSubmit(values: StoreProfileSchema) {
-    // startTransition(() =>
-    //   signUpAction(values).then((data) => {
-    //     if (data?.success) {
-    //       toast.success('Restaurante cadastrado com sucesso!', {
-    //         action: {
-    //           label: 'Login',
-    //           onClick: () => {},
-    //         },
-    //       })
-    //       form.reset()
-    //     }
-    //   }),
-    // )
+    startTransition(() =>
+      updateProfileAction(values).then((data) => {
+        if (data?.success) {
+          toast.success('Restaurante atualizado com sucesso')
+        }
+      }),
+    )
   }
 
   return (
@@ -129,7 +126,7 @@ export const StoreProfileDialog = ({
             <Button variant="ghost" type="button">
               Cancelar
             </Button>
-            <Button variant="success" type="submit">
+            <Button variant="success" type="submit" disabled={isPending}>
               Salvar
             </Button>
           </DialogFooter>

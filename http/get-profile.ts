@@ -11,7 +11,13 @@ interface GetProfileResponse {
 }
 
 export async function getProfile() {
-  const response = await api.get('me').json<GetProfileResponse>()
+  const response = await api
+    .get('me', {
+      next: {
+        tags: ['profile'],
+      },
+    })
+    .json<GetProfileResponse>()
 
   return response
 }
