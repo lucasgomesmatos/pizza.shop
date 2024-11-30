@@ -15,6 +15,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from './ui/dialog'
 import {
   Form,
@@ -122,10 +123,13 @@ export const StoreProfileDialog = ({
               )}
             />
           </div>
+
           <DialogFooter>
-            <Button variant="ghost" type="button">
-              Cancelar
-            </Button>
+            <DialogTrigger asChild disabled={isPending}>
+              <Button variant="ghost" type="button">
+                Cancelar
+              </Button>
+            </DialogTrigger>
             <Button variant="success" type="submit" disabled={isPending}>
               Salvar
             </Button>
