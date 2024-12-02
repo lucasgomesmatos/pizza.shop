@@ -13,7 +13,7 @@ export default function AuthLayout({
           <span className="font-semibold">pizza.shop</span>
         </div>
         <footer className="text-sm md:text-base">
-          Painel do parceiro &copy; pizza.shop - {new Date().getFullYear()}
+          &copy; pizza.shop - {new Date().getFullYear()}
         </footer>
       </section>
       <div className="relative flex flex-col items-center justify-center">

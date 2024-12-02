@@ -1,4 +1,5 @@
 import { Building, ChevronDown, LogOut } from 'lucide-react'
+import Link from 'next/link'
 
 import { getManagedRestaurant } from '@/http/get-manager-restaurant'
 import { getProfile } from '@/http/get-profile'
@@ -49,9 +50,14 @@ export async function AccountMenu() {
             </DropdownMenuItem>
           </DialogTrigger>
 
-          <DropdownMenuItem className="text-rose-500 dark:text-rose-400">
-            <LogOut className="size-4" />
-            <span>Sair</span>
+          <DropdownMenuItem
+            className="text-rose-500 dark:text-rose-400"
+            asChild
+          >
+            <Link href="api/auth/sign-out">
+              <LogOut className="size-4" />
+              <span>Sair</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
