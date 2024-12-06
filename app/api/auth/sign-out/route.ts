@@ -10,8 +10,12 @@ export async function GET(request: NextRequest) {
 
   await signOut()
 
-  const cookie = await cookies()
-  cookie.delete('auth')
+  try {
+    const cookie = await cookies()
+    cookie.delete('auth')
+  } catch {
+    return NextResponse.error()
+  }
 
   return NextResponse.redirect(redirectUrl)
 }
