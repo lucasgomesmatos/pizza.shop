@@ -1,4 +1,5 @@
-'use client'
+import { Metadata } from 'next/types'
+
 import {
   Table,
   TableBody,
@@ -6,16 +7,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { getOrders } from '@/http/get-orders'
 
-import { OrderPagination } from '../components/orders/order-pagination'
 import { OrderTableFilters } from '../components/orders/order-table-filters'
 import { OrderTableRow } from '../components/orders/order-table-row'
 
-// export const metadata: Metadata = {
-//   title: 'Pedidos',
-// }
+export const metadata: Metadata = {
+  title: 'Pedidos',
+}
 
-export default function Orders() {
+export default async function Orders() {
+  const { orders } = await getOrders()
+
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
@@ -37,18 +40,19 @@ export default function Orders() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: 10 }).map((_, index) => (
-                <OrderTableRow key={index} />
-              ))}
+              {orders &&
+                orders.map((order) => (
+                  <OrderTableRow key={order.orderId} order={order} />
+                ))}
             </TableBody>
           </Table>
         </div>
-        <OrderPagination
+        {/* <OrderPagination
           pageIndex={0}
           totalCount={105}
           perPage={10}
           onPageChange={() => {}}
-        />
+        /> */}
       </div>
     </div>
   )

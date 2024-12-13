@@ -3,7 +3,7 @@ import { api } from './api-client'
 interface GetOrdersResponse {
   orders: {
     orderId: string
-    createdAt: Date | null
+    createdAt: string
     status: 'pending' | 'canceled' | 'processing' | 'delivering' | 'delivered'
     customerName: string
     total: number
@@ -18,11 +18,11 @@ interface GetOrdersResponse {
 export async function getOrders() {
   const response = await api
     .get('orders', {
-      json: {
-        pageIndex: 0,
-      },
       next: {
         tags: ['orders'],
+      },
+      searchParams: {
+        pageIndex: 0,
       },
     })
     .json<GetOrdersResponse>()

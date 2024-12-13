@@ -1,4 +1,6 @@
+'use client'
 import { Search, X } from 'lucide-react'
+import { parseAsString, useQueryStates } from 'nuqs'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,10 +13,23 @@ import {
 } from '@/components/ui/select'
 
 export const OrderTableFilters = () => {
+  const [{ id }, setSearch] = useQueryStates({
+    id: parseAsString.withDefault(''),
+  })
+
   return (
     <form action="" className="flex items-center gap-2">
       <span className="text-sm font-semibold">Filtros:</span>
-      <Input placeholder="ID do pedido" className="h-8 w-auto" />
+      <Input
+        value={id}
+        onChange={(event) =>
+          setSearch({
+            id: event.target.value,
+          })
+        }
+        placeholder="ID do pedido"
+        className="h-8 w-auto"
+      />
       <Input placeholder="Nome do Cliente" className="h-8 w-[320px]" />
       <Select defaultValue="all">
         <SelectTrigger className="h-8 w-[180px]">
