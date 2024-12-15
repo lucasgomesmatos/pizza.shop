@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/table'
 import { getOrders } from '@/http/get-orders'
 
+import { OrderPagination } from '../components/orders/order-pagination'
 import { OrderTableFilters } from '../components/orders/order-table-filters'
 import { OrderTableRow } from '../components/orders/order-table-row'
 
@@ -16,8 +17,15 @@ export const metadata: Metadata = {
   title: 'Pedidos',
 }
 
-export default async function Orders() {
-  const { orders } = await getOrders()
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+
+export default async function Orders(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams
+  const pageIndex = Number(searchParams.page) - 1 || 0
+
+  const { orders, meta } = await getOrders({
+    pageIndex,
+  })
 
   return (
     <div className="flex flex-col gap-4">
@@ -47,12 +55,12 @@ export default async function Orders() {
             </TableBody>
           </Table>
         </div>
-        {/* <OrderPagination
-          pageIndex={0}
-          totalCount={105}
-          perPage={10}
-          onPageChange={() => {}}
-        /> */}
+        {meta && (
+          <OrderPagination
+            totalCount={meta.totalCount}
+            perPage={meta.perPage}
+          />
+        )}
       </div>
     </div>
   )

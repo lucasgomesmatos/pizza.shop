@@ -6,6 +6,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import {
   Pagination,
@@ -14,19 +15,28 @@ import {
 } from '@/components/ui/pagination'
 
 interface OrderPaginationProps {
-  pageIndex: number
   totalCount: number
   perPage: number
-  onPageChange: (pageIndex: number) => void
 }
 
 export const OrderPagination = ({
-  pageIndex,
   totalCount,
   perPage,
-  onPageChange,
 }: OrderPaginationProps) => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const pages = Math.ceil(totalCount / perPage) || 1
+
+  // Converte page da URL (base 1) para pageIndex (base 0)
+  const currentPage = Number(searchParams.get('page')) || 1
+  const pageIndex = currentPage - 1
+
+  const onPageChange = (newPageIndex: number) => {
+    if (newPageIndex < 0 || newPageIndex >= pages) return
+
+    // Atualiza a URL com page em base 1
+    router.push(`?page=${newPageIndex + 1}`)
+  }
 
   return (
     <div className="flex items-center justify-between">
@@ -50,6 +60,7 @@ export const OrderPagination = ({
                 <span className="sr-only">Primeira página</span>
               </PaginationLink>
               <PaginationLink
+                disabled={pageIndex === 0}
                 onClick={() => onPageChange(pageIndex - 1)}
                 className="h-8 w-8 p-0"
               >
@@ -57,6 +68,7 @@ export const OrderPagination = ({
                 <span className="sr-only">Página anterior</span>
               </PaginationLink>
               <PaginationLink
+                disabled={pageIndex === pages - 1}
                 onClick={() => onPageChange(pageIndex + 1)}
                 className="h-8 w-8 p-0"
               >
@@ -64,6 +76,7 @@ export const OrderPagination = ({
                 <span className="sr-only">Próxima página</span>
               </PaginationLink>
               <PaginationLink
+                disabled={pageIndex === pages - 1}
                 onClick={() => onPageChange(pages - 1)}
                 className="h-8 w-8 p-0"
               >

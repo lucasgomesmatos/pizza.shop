@@ -1,6 +1,7 @@
 'use client'
 import { Search, X } from 'lucide-react'
 import { parseAsString, useQueryStates } from 'nuqs'
+import { createSearchParamsCache } from 'nuqs/server'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,9 +13,16 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+export const searchParamsCache = createSearchParamsCache({
+  pageIndex: parseAsString.withDefault('0'),
+})
+
 export const OrderTableFilters = () => {
   const [{ id }, setSearch] = useQueryStates({
+    pageIndex: parseAsString.withDefault('0'),
     id: parseAsString.withDefault(''),
+    status: parseAsString.withDefault('all'),
+    customerName: parseAsString.withDefault(''),
   })
 
   return (

@@ -1,5 +1,9 @@
 import { api } from './api-client'
 
+interface GetOrdersQuery {
+  pageIndex?: number
+}
+
 interface GetOrdersResponse {
   orders: {
     orderId: string
@@ -15,14 +19,14 @@ interface GetOrdersResponse {
   }
 }
 
-export async function getOrders() {
+export async function getOrders({ pageIndex }: GetOrdersQuery) {
   const response = await api
     .get('orders', {
       next: {
         tags: ['orders'],
       },
       searchParams: {
-        pageIndex: 0,
+        pageIndex: pageIndex ?? 0,
       },
     })
     .json<GetOrdersResponse>()
