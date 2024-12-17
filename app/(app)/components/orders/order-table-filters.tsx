@@ -30,7 +30,6 @@ export const OrderTableFilters = () => {
   const orderId = searchParams.get('orderId')
   const status = searchParams.get('status')
   const customerName = searchParams.get('customerName')
-  const page = searchParams.get('page') ?? '1'
 
   const { register, handleSubmit, control, reset } = useForm({
     resolver: zodResolver(ordersFiltersSchema),
@@ -46,9 +45,6 @@ export const OrderTableFilters = () => {
     customerName,
     status,
   }: OrdersFiltersSchema) => {
-    // adicionar somente os valores preenchidos
-    // pode ter o searchParams de page não quero remover
-
     const params = new URLSearchParams()
 
     if (orderId) {
@@ -66,12 +62,23 @@ export const OrderTableFilters = () => {
     } else {
       params.delete('status')
     }
-    if (page) {
-      params.set('page', page)
-    }
+
+    params.set('page', '1')
 
     router.push(`?${params.toString()}`)
   }
+
+  const handleClearFilters = () => {
+    const formReset = {
+      orderId: '',
+      status: 'all',
+      customerName: '',
+    }
+
+    reset(formReset)
+    handleFilter(formReset)
+  }
+
   return (
     <form
       onSubmit={handleSubmit(handleFilter)}
@@ -121,10 +128,7 @@ export const OrderTableFilters = () => {
         type="button"
         variant="outline"
         size="sm"
-        onClick={() => {
-          reset()
-          handleFilter({ orderId: '', customerName: '', status: 'all' })
-        }}
+        onClick={handleClearFilters}
       >
         <X className="size-4" />
         Remover Filtros

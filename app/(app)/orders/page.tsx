@@ -22,9 +22,15 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default async function Orders(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams
   const pageIndex = Number(searchParams.page) - 1 || 0
+  const orderId = searchParams.orderId?.toString()
+  const status = searchParams.status?.toString()
+  const customerName = searchParams.customerName?.toString()
 
   const { orders, meta } = await getOrders({
     pageIndex,
+    orderId,
+    status,
+    customerName,
   })
 
   return (

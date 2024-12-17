@@ -2,6 +2,9 @@ import { api } from './api-client'
 
 interface GetOrdersQuery {
   pageIndex?: number
+  orderId?: string
+  status?: string | null
+  customerName?: string
 }
 
 interface GetOrdersResponse {
@@ -19,15 +22,25 @@ interface GetOrdersResponse {
   }
 }
 
-export async function getOrders({ pageIndex }: GetOrdersQuery) {
+export async function getOrders({
+  pageIndex,
+  customerName,
+  orderId,
+  status,
+}: GetOrdersQuery) {
   const response = await api
     .get('orders', {
       next: {
         tags: ['orders'],
       },
-      searchParams: {
-        pageIndex: pageIndex ?? 0,
-      },
+      searchParams: new URLSearchParams(
+        Object.entries({
+          pageIndex: (pageIndex ?? 0).toString(),
+          customerName: customerName ?? '',
+          orderId: orderId ?? '',
+          status: status === 'all' ? null : status,
+        }).filter(([, v]) => v != null) as [string, string][],
+      ),
     })
     .json<GetOrdersResponse>()
 

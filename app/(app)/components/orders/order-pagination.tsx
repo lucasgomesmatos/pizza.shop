@@ -35,7 +35,9 @@ export const OrderPagination = ({
     if (newPageIndex < 0 || newPageIndex >= pages) return
 
     // Atualiza a URL com page em base 1
-    router.push(`?page=${newPageIndex + 1}`)
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', (newPageIndex + 1).toString())
+    router.push(`?${params.toString()}`)
   }
 
   return (
