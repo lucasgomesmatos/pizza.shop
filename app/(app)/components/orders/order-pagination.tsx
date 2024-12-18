@@ -27,14 +27,12 @@ export const OrderPagination = ({
   const searchParams = useSearchParams()
   const pages = Math.ceil(totalCount / perPage) || 1
 
-  // Converte page da URL (base 1) para pageIndex (base 0)
   const currentPage = Number(searchParams.get('page')) || 1
   const pageIndex = currentPage - 1
 
   const onPageChange = (newPageIndex: number) => {
     if (newPageIndex < 0 || newPageIndex >= pages) return
 
-    // Atualiza a URL com page em base 1
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', (newPageIndex + 1).toString())
     router.push(`?${params.toString()}`)
