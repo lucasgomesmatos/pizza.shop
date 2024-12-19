@@ -27,9 +27,5 @@ export interface GetDetailsOrdersResponse {
 export const getDetailsOrders = async ({
   orderId,
 }: GetDetailsOrdersRequest) => {
-  const response = await api
-    .get(`orders/${orderId}`)
-    .json<GetDetailsOrdersResponse>()
-
-  return response
+  return await api.get(`orders/${orderId}`).json<GetDetailsOrdersResponse>()
 }
