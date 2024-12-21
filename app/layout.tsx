@@ -2,11 +2,8 @@ import './globals.css'
 
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import { Toaster } from 'sonner'
 
-import { ReactQueryProvider } from '@/components/provider/react-query-provider'
-import { ThemeProvider } from '@/components/theme-provider'
+import { Providers } from '@/components/provider/providers'
 import { cn } from '@/lib/utils'
 
 const fontSans = FontSans({
@@ -34,17 +31,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <ReactQueryProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NuqsAdapter>{children}</NuqsAdapter>
-          </ThemeProvider>
-        </ReactQueryProvider>
-        <Toaster richColors />
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
