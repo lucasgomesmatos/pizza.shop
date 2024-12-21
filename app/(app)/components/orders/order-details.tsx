@@ -1,5 +1,3 @@
-'use client'
-
 import {
   DialogContent,
   DialogDescription,
@@ -16,7 +14,13 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-export const OrderDetails = () => {
+export interface OrderDetailsProps {
+  orderId: string
+}
+
+export default async function OrderDetails({ orderId }: OrderDetailsProps) {
+  // const order = await getDetailsOrders({ orderId })
+
   return (
     <DialogContent>
       <DialogHeader>

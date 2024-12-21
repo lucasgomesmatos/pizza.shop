@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 
-import { OrderDetails } from './order-details'
+import OrderDetails from './order-details'
 import { OrderStatus } from './order-status'
 
 interface OrderTableRowProps {
@@ -32,7 +32,7 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
               <span className="sr-only">Detalhes do pedido</span>
             </Button>
           </DialogTrigger>
-          <OrderDetails />
+          <OrderDetails orderId={order.orderId} />
         </Dialog>
       </TableCell>
       <TableCell className="font-mono text-sm font-medium">
