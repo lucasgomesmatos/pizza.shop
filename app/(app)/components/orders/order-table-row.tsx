@@ -3,8 +3,10 @@
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ArrowRight, Search, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
+import { toast } from 'sonner'
 
+import { cancelOrderAction } from '@/actions/cancel-order.action'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
@@ -24,6 +26,22 @@ interface OrderTableRowProps {
 
 export const OrderTableRow = ({ order }: OrderTableRowProps) => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+
+  const [isPending, startTransition] = useTransition()
+
+  async function onCancelOrder(orderId: string) {
+    startTransition(() =>
+      cancelOrderAction({
+        orderId,
+      }).then((data) => {
+        if (data?.success) {
+          toast.success('Pedido cancelado com sucesso')
+        } else {
+          toast.error(data?.error)
+        }
+      }),
+    )
+  }
 
   return (
     <TableRow>
@@ -66,7 +84,14 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
         </Button>
       </TableCell>
       <TableCell>
-        <Button variant="ghost" size="sm">
+        <Button
+          disabled={
+            !['pending', 'processing'].includes(order.status) || isPending
+          }
+          variant="ghost"
+          size="sm"
+          onClick={() => onCancelOrder(order.orderId)}
+        >
           <X className="size-3" />
           Cancelar
         </Button>
