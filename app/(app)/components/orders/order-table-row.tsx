@@ -6,7 +6,10 @@ import { ArrowRight, Search, X } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
+import { approveOrderAction } from '@/actions/approve-order.action'
 import { cancelOrderAction } from '@/actions/cancel-order.action'
+import { deliverOrderAction } from '@/actions/deliver-order.action'
+import { dispatchOrderAction } from '@/actions/dispatch-order.action'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
@@ -36,6 +39,48 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
       }).then((data) => {
         if (data?.success) {
           toast.success('Pedido cancelado com sucesso')
+        } else {
+          toast.error(data?.error)
+        }
+      }),
+    )
+  }
+
+  async function onApproveOrder(orderId: string) {
+    startTransition(() =>
+      approveOrderAction({
+        orderId,
+      }).then((data) => {
+        if (data?.success) {
+          toast.success('Pedido aprovado com sucesso')
+        } else {
+          toast.error(data?.error)
+        }
+      }),
+    )
+  }
+
+  async function onDeliverOrder(orderId: string) {
+    startTransition(() =>
+      deliverOrderAction({
+        orderId,
+      }).then((data) => {
+        if (data?.success) {
+          toast.success('Pedido entregue com sucesso')
+        } else {
+          toast.error(data?.error)
+        }
+      }),
+    )
+  }
+
+  async function onDispatchOrder(orderId: string) {
+    startTransition(() =>
+      dispatchOrderAction({
+        orderId,
+      }).then((data) => {
+        if (data?.success) {
+          toast.success('Pedido despachado com sucesso')
         } else {
           toast.error(data?.error)
         }
@@ -78,10 +123,39 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
         })}
       </TableCell>
       <TableCell>
-        <Button variant="outline" size="sm">
-          <ArrowRight className="size-3" />
-          Aprovar
-        </Button>
+        {order.status === 'pending' && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onApproveOrder(order.orderId)}
+            disabled={isPending}
+          >
+            <ArrowRight className="size-3" />
+            Aprovar
+          </Button>
+        )}
+        {order.status === 'processing' && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onDispatchOrder(order.orderId)}
+            disabled={isPending}
+          >
+            <ArrowRight className="size-3" />
+            Em entrega
+          </Button>
+        )}
+        {order.status === 'delivering' && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onDeliverOrder(order.orderId)}
+            disabled={isPending}
+          >
+            <ArrowRight className="size-3" />
+            Entregar
+          </Button>
+        )}
       </TableCell>
       <TableCell>
         <Button
