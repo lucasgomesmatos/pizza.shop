@@ -1,7 +1,7 @@
 import { api } from './api-client'
 
 interface GetMonthRevenueResponse {
-  amount: number
+  receipt: number
   diffFromLastMonth: number
 }
 
