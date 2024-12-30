@@ -13,13 +13,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { getPopularProducts } from '@/http/get-popular-products'
-// const chartData = [
-//   { product: 'Pepperoni', amount: 40, fill: 'hsl(var(--chart-1))' },
-//   { product: 'Mussarela', amount: 30, fill: 'hsl(var(--chart-2))' },
-//   { product: 'Marguerita', amount: 50, fill: 'hsl(var(--chart-3))' },
-//   { product: '4 Queijos', amount: 16, fill: 'hsl(var(--chart-4))' },
-//   { product: 'Frango', amount: 26, fill: 'hsl(var(--chart-5))' },
-// ]
 
 const COLORS = [
   colors.sky[500],
@@ -53,7 +46,7 @@ export function PopularProductsChart() {
         <CardContent className="flex-1 pb-0">
           <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square max-h-[350px]"
+            className="mx-auto aspect-square w-3/4"
           >
             <PieChart>
               <ChartTooltip
@@ -69,6 +62,7 @@ export function PopularProductsChart() {
                 innerRadius={64}
                 strokeWidth={4}
                 labelLine={false}
+                width={350}
                 z={1}
                 label={({
                   cx,
