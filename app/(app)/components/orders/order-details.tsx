@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/table'
 import { getDetailsOrders } from '@/http/get-details-orders'
 
+import { OrderDetailsSkeleton } from './order-details-skeleton'
 import { OrderStatus } from './order-status'
 
 export interface OrderDetailsProps {
@@ -37,13 +38,13 @@ export const OrderDetails = ({ orderId, open }: OrderDetailsProps) => {
 
   return (
     <>
-      {order && (
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Pedido: {order?.id}</DialogTitle>
-            <DialogDescription>Detalhes do pedido</DialogDescription>
-          </DialogHeader>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Pedido: {order?.id}</DialogTitle>
+          <DialogDescription>Detalhes do pedido</DialogDescription>
+        </DialogHeader>
 
+        {order ? (
           <div className="space-y-6">
             <Table>
               <TableBody>
@@ -141,8 +142,10 @@ export const OrderDetails = ({ orderId, open }: OrderDetailsProps) => {
               </TableFooter>
             </Table>
           </div>
-        </DialogContent>
-      )}
+        ) : (
+          <OrderDetailsSkeleton />
+        )}
+      </DialogContent>
     </>
   )
 }
